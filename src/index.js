@@ -1,16 +1,16 @@
-export const createRenderer = (fnc, { propName = 'render' } = {}) => {
+export const create = (fnc, { propName = 'render' } = {}) => {
 
   if (typeof fnc !== 'function') {
-    throw new Error('Renderer #1 argument must be a function');
+    throw new Error('Create render prop component #1 argument must be a function');
   }
 
   if (typeof propName !== 'string') {
     throw new Error('propName option must be a string');
   }
 
-  return function Renderer(props) {
+  return function Reproc(props) {
     return props[propName](fnc(props));
   }
 };
 
-export default createRenderer;
+export default create;
