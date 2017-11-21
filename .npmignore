@@ -1,0 +1,14 @@
+# Logs
+logs
+
+#idea files
+.idea
+
+# images
+*.jpg
+
+# babel files
+.babelrc
+
+# coverage files
+coverage
