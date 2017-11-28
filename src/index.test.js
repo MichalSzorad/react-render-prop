@@ -1,31 +1,31 @@
-import createReproc from "./index";
+import createProvider from "./index";
 
-describe('createReproc', () => {
+describe('createProvider', () => {
   it('Should be a function', () => {
-    expect(typeof createReproc).toBe('function');
+    expect(typeof createProvider).toBe('function');
   });
 
   it('Should throw an error when no function is provided', () => {
-    expect(() => createReproc('')).toThrow(/function/);
+    expect(() => createProvider('')).toThrow(/function/);
   });
 
   it('Should throw an error when second argument is null', () => {
-    expect(() => createReproc('', null)).toThrow();
+    expect(() => createProvider('', null)).toThrow();
   });
 
   it('Should throw an error when second arguments property `propName` is not the type of string', () => {
-    expect(() => createReproc(() => { }, { propName: 'test' })).not.toThrow();
-    expect(() => createReproc(() => { }, { propName: null })).toThrow(/string/);
-    expect(() => createReproc(() => { }, { propName: 1 })).toThrow(/string/);
-    expect(() => createReproc(() => { }, { propName: true })).toThrow(/string/);
+    expect(() => createProvider(() => { }, { propName: 'test' })).not.toThrow();
+    expect(() => createProvider(() => { }, { propName: null })).toThrow(/string/);
+    expect(() => createProvider(() => { }, { propName: 1 })).toThrow(/string/);
+    expect(() => createProvider(() => { }, { propName: true })).toThrow(/string/);
   });
 
   it('Should have a default property for option `propName`', () => {
-    expect(() => createReproc(() => { }, { propName: undefined })).not.toThrow();
+    expect(() => createProvider(() => { }, { propName: undefined })).not.toThrow();
   });
 
   it('Should return a function', () => {
-    expect(typeof createReproc(() => { })).toBe('function');
+    expect(typeof createProvider(() => { })).toBe('function');
   });
 
   it('Should pass the params to the renderer function', () => {
@@ -37,7 +37,7 @@ describe('createReproc', () => {
 
     const params = { test: true, render: fn2 };
 
-    const Renderer = createReproc(fn1);
+    const Renderer = createProvider(fn1);
 
     // <Renderer render={fn2} test={true} />
     const result = Renderer(params);
@@ -49,7 +49,7 @@ describe('createReproc', () => {
 
   it('Should call the function from render property with renderer result', () => {
     const result = {};
-    const Renderer = createReproc(() => result);
+    const Renderer = createProvider(() => result);
     const fn = jest.fn();
     Renderer({ test: true, render: fn });
     expect(fn).toBeCalledWith(result);
@@ -59,7 +59,7 @@ describe('createReproc', () => {
     const expectedResult = {};
     const params = { test: true, render: () => expectedResult };
 
-    const Renderer = createReproc(() => 1);
+    const Renderer = createProvider(() => 1);
 
     const finalResult = Renderer(params);
 
@@ -70,7 +70,7 @@ describe('createReproc', () => {
     const fn = jest.fn();
     const params = { test: true, children: fn };
 
-    const Renderer = createReproc(() => 1, { propName: 'children' });
+    const Renderer = createProvider(() => 1, { propName: 'children' });
 
     Renderer(params);
 
@@ -78,7 +78,7 @@ describe('createReproc', () => {
   });
 
   it('Should throw an error if the renderProperty is not a function', () => {
-    const Renderer = createReproc(() => 1, { propName: 'children' });
+    const Renderer = createProvider(() => 1, { propName: 'children' });
 
     expect(() => Renderer({ children: true })).toThrow(/function/);
     expect(() => Renderer({ children: 1 })).toThrow(/function/);
